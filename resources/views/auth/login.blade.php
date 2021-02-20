@@ -56,12 +56,33 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
                                 </button>
+                            
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                                <style>
+                                    a:link {
+                                    text-decoration: none;
+                                    }
+                        
+                                    a:visited {
+                                    text-decoration: none;
+                                    }
+                        
+                                    a:hover {
+                                    text-decoration: none !important;
+                                    }
+                        
+                                    a:active {
+                                    text-decoration: none;
+                                    }
+                                    </style>
+                                <a class="text-center fb-login" href="{{ url('redirect/facebook')}}" style="text-decoration: none;hover:none">
+                                    <i class="fab fa-facebook"></i>
+                                    Login with Facebook</a>
                             </div>
                         </div>
                     </form>

@@ -19,20 +19,20 @@ class SocialController extends Controller
     //    return response() -> json($facebookDate);
        try{
          $user = User::where('email', $facebookDate->email)
-         ->orWhere('email',$facebookDate->name."@tweety.com")
+         ->orWhere('email',$facebookDate->name."@passport.com")
          ->firstOrFail();
     } catch (ModelNotFoundException $e) {
      
        $user = User::create([
             "username" => $facebookDate->name,
             "name" => $facebookDate->name,
-            "email" => $facebookDate->email ? $facebookDate->email : $facebookDate->name."@tweety.com",
+            "email" => $facebookDate->email ? $facebookDate->email : $facebookDate->name."@passport.com",
             'password' => Hash::make($facebookDate->name.$facebookDate->email),
             'remember_token' => $facebookDate->token
         ]);
         // dd($create);
     }
         Auth::login($user);
-        return redirect("/tweets");
+        return redirect("/home");
     }
 }

@@ -65,7 +65,27 @@
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
-                                </button>
+                                </button> OR
+                                <style>
+                                    a:link {
+                                    text-decoration: none;
+                                    }
+                        
+                                    a:visited {
+                                    text-decoration: none;
+                                    }
+                        
+                                    a:hover {
+                                    text-decoration: none !important;
+                                    }
+                        
+                                    a:active {
+                                    text-decoration: none;
+                                    }
+                                    </style>
+                                <a class="text-center fb-login" href="{{ url('redirect/facebook')}}" style="text-decoration: none;hover:none">
+                                    <i class="fab fa-facebook"></i>
+                                    Register with Facebook</a>
                             </div>
                         </div>
                     </form>
