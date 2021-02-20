@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/redirect/{service}', "App\Http\Controllers\SocialController@redirect");
+Route::get('/callback/{service}', "App\Http\Controllers\SocialController@callback");
 Route::get("/terms", function() {
     echo "<h1>terms</h1>";
 });
@@ -25,10 +26,9 @@ Route::get("/privacy", function() {
     echo "<h1>privacy</h1>";
 });
 
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::get('/redirect/{service}', "App\Http\Controllers\SocialController@redirect");
-Route::get('/callback/{service}', "App\Http\Controllers\SocialController@callback");
