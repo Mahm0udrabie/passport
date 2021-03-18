@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ArticleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,8 +28,10 @@ Route::get("/privacy", function() {
 });
 
 
-Auth::routes();
+Auth::routes(['verify'=> true]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home') -> middleware('verified');
 
 
+Route::get('/index', [ArticleController::class, "index"]);
+Route::get('/users', [ArticleController::class, "show_users"]);

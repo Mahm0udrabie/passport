@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,11 @@ use Illuminate\Support\Str;
 
 class ApiAuthController extends Controller
 {
+    protected $model;
+    public function __construct(User $user)
+    {
+        $this->model = $user;
+    }
     public function register (Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -23,7 +29,10 @@ class ApiAuthController extends Controller
         }
         $request['password']=Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
-        $user = User::create($request->toArray());
+        $user = $this->model->create(array_merge($request->toArray(), [
+            'api_token' => bcrypt(Str::random(20)),
+            'channel'  => $this->create_uuid(),
+        ]));
         $token = $user->createToken('Laravel Password Grant Client')->accessToken;
         $response = ['token' => $token];
         return response()->json(
@@ -38,7 +47,7 @@ class ApiAuthController extends Controller
     public function login (Request $request) {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
         ]);
         if ($validator->fails())
         {
@@ -48,16 +57,14 @@ class ApiAuthController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-                $response = ['token' => $token];
+                $response = array_merge($user->toArray(), ["token"=>$token]);
                 return response()->json([
                     "status" => "success",
-                    "data" => $user,
-                   $response
-                ],
-            200);
+                    "data" => $response
+                ], 200);
             } else {
                 $response = ["message" => "Password mismatch"];
-                return response($response, 422);
+                return response(new UserResource($response), 422);
             }
         } else {
             $response = ["message" =>'User does not exist'];
@@ -70,5 +77,8 @@ class ApiAuthController extends Controller
         $token->revoke();
         $response = ['message' => 'You have been successfully logged out!'];
         return response($response, 200);
+    }
+    private function create_uuid() {
+        return time()."-".Str::random(5)."-".Str::random(5)."-".Str::random(5)."-".Str::random(5);
     }
 }

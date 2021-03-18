@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Article;
+use App\Models\User;
 
 class ArticleController extends Controller
 {
@@ -13,7 +15,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $response = ['message' =>  'index function'];
+        $response = ['message' =>  Article::all()];
         return response($response, 200);
     }
 
@@ -37,6 +39,10 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $response = ['message' =>  'store function'];
+        return response($response, 200);
+    }
+    public function show_users() {
+        $response = ['data' =>  User::all()];
         return response($response, 200);
     }
 

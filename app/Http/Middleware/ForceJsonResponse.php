@@ -16,6 +16,7 @@ class ForceJsonResponse
      */
     public function handle(Request $request, Closure $next)
     {
+        // config(['json.guards.api.provider' => 'users']);
         $request->headers->set('Accept', 'application/json');
         return $next($request);
     }

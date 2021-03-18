@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens,HasFactory, Notifiable;
 
@@ -22,9 +22,12 @@ class User extends Authenticatable
         'username',
         'name',
         'avatar',
+        'expire',
         'email',
         'password',
-    ];
+        'api_token',
+        'channel'
+];
     /**
      * The attributes that should be hidden for arrays.
      *
