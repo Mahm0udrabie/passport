@@ -161,7 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
+        Nwidart\Modules\LaravelModulesServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -233,7 +233,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'Curl' => Ixudra\Curl\Facades\Curl::class
+        'Curl' => Ixudra\Curl\Facades\Curl::class,
+        'Module' => Nwidart\Modules\Facades\Module::class,
     ],
 
 ];

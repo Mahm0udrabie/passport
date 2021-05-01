@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ArticleResource;
+use App\Http\Resources\CreatePostArticleResource;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
@@ -13,10 +16,20 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $model;
+    public function __construct(Article $model)
+    {
+        $this->model = $model;
+    }
     public function index()
     {
-        $response = ['message' =>  Article::all()];
-        return response($response, 200);
+       $response = Article::with(['comments.user'])->latest()->paginate(10);
+        // $response = Article::with('user')->latest()->get();
+        return response()->json([
+            "status" => "success",
+            // "data" => $response,
+            "data"   => ArticleResource::collection($response),
+        ]);
     }
 
     /**
@@ -24,10 +37,22 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $response = ['message' =>  'create function'];
-        return response($response, 200);
+        $v = Validator::make($request->all() , [
+            'body' => 'required',
+            'title'  => 'required'
+        ]);
+        $post = $this->model->create([
+            'user_id' => auth()->guard('api') -> user() ->id,
+            'body'    => $request->body,
+            'title'   => $request->title,
+        ]);
+        return response() -> json([
+            'status' => "success",
+            // 'data'   => $post,
+            'data' => new CreatePostArticleResource($post)
+        ]);
     }
 
     /**

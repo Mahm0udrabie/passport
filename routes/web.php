@@ -33,5 +33,5 @@ Auth::routes(['verify'=> true]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home') -> middleware('verified');
 
 
-Route::get('/index', [ArticleController::class, "index"]);
+// Route::get('/index', [ArticleController::class, "index"]);
 Route::get('/users', [ArticleController::class, "show_users"]);

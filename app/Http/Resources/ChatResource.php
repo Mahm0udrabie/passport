@@ -25,6 +25,7 @@ class ChatResource extends JsonResource
             "newContentMessage"   => $this->body,
             "content"   => $this->body,
             "is_viewed" => $this->is_opened,
+            "sent"      => $this->created_at->format('y-d-m H:i:s'),
         ];
     }
 }
