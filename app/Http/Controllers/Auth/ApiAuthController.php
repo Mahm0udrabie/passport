@@ -20,6 +20,7 @@ class ApiAuthController extends Controller
     public function register (Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -39,7 +40,7 @@ class ApiAuthController extends Controller
             [
                 "status" => "success",
                 "data"   =>  $user,
-                "token"  => $response, 
+                "token"  => $response,
             ],
             200
         );
@@ -64,7 +65,7 @@ class ApiAuthController extends Controller
                 ], 200);
             } else {
                 $response = ["message" => "Password mismatch"];
-                return response(new UserResource($response), 422);
+                return response($response, 422);
             }
         } else {
             $response = ["message" =>'User does not exist'];
