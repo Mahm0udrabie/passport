@@ -119,8 +119,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
-
+    'key' => env('APP_KEY', $_ENV['APP_KEY']),
     'cipher' => 'AES-256-CBC',
 
     /*
@@ -190,7 +189,7 @@ return [
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
     */
-    'aliases' => [ 
+    'aliases' => [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class
     ],
 
