@@ -34,4 +34,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 // Route::get('/index', [ArticleController::class, "index"]);
-Route::get('/users', [ArticleController::class, "show_users"]);
+Route::get('/users', [ArticleController::class, "show_users"])->middleware('auth:api');
