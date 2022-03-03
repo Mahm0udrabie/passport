@@ -33,6 +33,9 @@ class ScormController extends Controller
 
     public function store(Request $request)
     {
+        $request->resource_type = null;
+        $request->resource_id   = null;
+
         try {
             $scorm = $this->scormManager->uploadScormArchive($request->file('file'));
             // handle scorm runtime error msg
