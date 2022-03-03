@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ScormController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,3 +37,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // Route::get('/index', [ArticleController::class, "index"]);
 Route::get('/users', [ArticleController::class, "show_users"])->middleware('auth:api');
+
+Route::get('/create-scorm', [ScormController::class, "create"]);
+Route::get('/show-scorm/{id}', [ScormController::class, "show"]);
+Route::post('/store-scorm', [ScormController::class, "store"])->name('store-scorm');
+

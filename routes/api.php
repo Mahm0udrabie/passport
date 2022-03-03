@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\Profile\UserProfile;
 use App\Models\Chat;
+use App\Http\Controllers\UploadFileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,8 @@ use App\Models\Chat;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('file', [UploadFileController::class, 'uploadFile']);
+Route::get('download-file/{id}', [UploadFileController::class, 'getFileBYId']);
 
 Route::middleware('auth:api')->group(function () {
     // our routes to be protected will go in here
@@ -31,13 +34,13 @@ Route::group(['middleware' => ['cors', 'json']], function () {
     Route::post('/login', [ApiAuthController::class, "login"] )->name('login.api');
     Route::post('/register',[ApiAuthController::class,'register'])->name('register.api');
     Route::post('/logout', [ApiAuthController::class,'logout'])->name('logout.api');
-    Route::post('messages/add',[MessagesController::class, 'send']); 
+    Route::post('messages/add',[MessagesController::class, 'send']);
     Route::get('messages/users/{id}', [MessagesController::class, 'messages']);
     Route::get('/messages',  [MessagesController::class, 'chats']);
     Route::get("/profile/{user:username}", [UserProfile::class, "index"])->name('user.profile');
-    Route::get('/index', [ArticleController::class, "index"]);  
-    Route::post('/posts/add_post', [ArticleController::class, "create"]);  
-    Route::post('/post/comment/add_comment', [CommentController::class, "create"]);  
-    Route::get('/post/comments', [CommentController::class, "index"]);  
+    Route::get('/index', [ArticleController::class, "index"]);
+    Route::post('/posts/add_post', [ArticleController::class, "create"]);
+    Route::post('/post/comment/add_comment', [CommentController::class, "create"]);
+    Route::get('/post/comments', [CommentController::class, "index"]);
 });
 
