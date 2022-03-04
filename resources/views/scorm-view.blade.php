@@ -9,7 +9,7 @@
 </head>
 <body>
     @php
-        echo  $item ;
+        echo  $item;
     @endphp
     <iframe src="{!! $item !!}" frameborder="0"></iframe>
 
