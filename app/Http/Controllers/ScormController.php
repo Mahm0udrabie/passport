@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Peopleaps\Scorm\Manager\ScormManager;
 use Peopleaps\Scorm\Model\ScormModel;
+use Illuminate\Support\Facades\Storage;
 
 class ScormController extends Controller
 {
@@ -25,16 +26,19 @@ class ScormController extends Controller
         $item = ScormModel::with('scos')->findOrFail($id);
         // dd($item);
         // response helper function from base controller reponse json.
-        $html = file_get_contents(storage_path("app/".$item['uuid'].'/'.$item['entry_url']));
+        $html = file_get_contents(storage_path("app/".$item['uuid'].'/story.html'));
         // storage_path('app/public')
-        return view('scorm-view')
-            ->with('item', $html );
+        // dd(storage_path("app/".$item['uuid'].'/story.html'));
+        // $html = storage_path("app/".$item['uuid'].'/story.html');
+
+        return view('scorm-view')->with('item', $html);
     }
 
     public function store(Request $request)
     {
         $request->resource_type = null;
         $request->resource_id   = null;
+
 
         try {
             $scorm = $this->scormManager->uploadScormArchive($request->file('file'));
