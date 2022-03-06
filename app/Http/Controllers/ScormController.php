@@ -31,7 +31,7 @@ class ScormController extends Controller
         // dd(storage_path("app/".$item['uuid'].'/story.html'));
         // $html = storage_path("app/".$item['uuid'].'/story.html');
 
-        return view('scorm-view')->with('item', $html);
+        return view('scorm-view-test');
     }
 
     public function store(Request $request)
